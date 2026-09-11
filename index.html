@@ -404,6 +404,37 @@ function sendLead(data){
   try{
     fetch(GOOGLE_SHEETS_ENDPOINT, {
       method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(data)
+    }).catch(e => console.warn('Envío fallido:', e));
+  }catch(e){ console.warn('Envío fallido:', e); }
+}
+
+function sendFullData(leadData, answersData, outcomeData){
+  if (DEMO_MODE || !GOOGLE_SHEETS_ENDPOINT){
+    console.log('[MODO DEMO] Datos completos NO enviados');
+    return;
+  }
+  try{
+    var payload = {
+      fecha: leadData.fecha,
+      nombre: leadData.nombre,
+      telefono: leadData.telefono,
+      privacidad: leadData.privacidad,
+      marketing: leadData.marketing,
+      answers: answersData,
+      outcome: outcomeData
+    };
+    fetch(GOOGLE_SHEETS_ENDPOINT, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(payload)
+    }).catch(e => console.warn('Envío datos completos fallido:', e));
+  }catch(e){ console.warn('Envío datos completos fallido:', e); }
+}
+  try{
+    fetch(GOOGLE_SHEETS_ENDPOINT, {
+      method:'POST',
       headers:{'Content-Type':'text/plain;charset=utf-8'}, // evita preflight CORS
       body: JSON.stringify(data)
     }).catch(e => console.warn('Envío fallido:', e));
