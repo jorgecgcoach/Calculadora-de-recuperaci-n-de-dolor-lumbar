@@ -743,6 +743,11 @@ function calculateOutcome(a){
 function runResult(){
   show('s-loading'); window.scrollTo({top:0,behavior:'smooth'});
   const out = calculateOutcome(answers);
+  
+  // Envía TODAS las respuestas + resultado al Sheets
+  const outcomeStr = out.type + (out.category ? ':' + out.category : '');
+  sendFullData(lead, answers, outcomeStr);
+  
   setTimeout(()=>{ renderResult(out); show('s-result'); window.scrollTo({top:0,behavior:'smooth'}); }, 800);
 }
 
